@@ -1,14 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DbService } from '../services/db.service';
+import { UserStoreService } from '../services/user-store.service';
 
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent {
+export class NavMenuComponent implements OnInit{
   isExpanded = false;
-constructor(private _dbService : DbService){}
+  public fullName: string = '';
+constructor(private _dbService : DbService,private _userStoreService : UserStoreService){}
+  ngOnInit(): void {
+    this._userStoreService.getFullNameFromStore().subscribe(
+      val => {
+        console.log(val)
+        debugger
+        let fullNameFromToken = this._dbService.getFullNameFromToken();
+        this.fullName = val || fullNameFromToken;
+      }
+    )
+   }
   collapse() {
     this.isExpanded = false;
   }
@@ -17,6 +29,7 @@ constructor(private _dbService : DbService){}
     this.isExpanded = !this.isExpanded;
   }
   logout() {
+    this.fullName = ''
     this._dbService.logout();
   }
 
@@ -26,4 +39,5 @@ constructor(private _dbService : DbService){}
     }
     else return false;
   }
+
 }

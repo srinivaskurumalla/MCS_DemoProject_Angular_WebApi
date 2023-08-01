@@ -102,7 +102,7 @@ namespace MCS_DemoProject_Angular_WebApi.Controllers
                 return NotFound("Invalid credentials");
             }
 
-            return Ok(new {Token = token, Message = "login Successful"});
+            return Ok(token);
         }
 
        
@@ -124,14 +124,14 @@ namespace MCS_DemoProject_Angular_WebApi.Controllers
 
             var myClaims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name,user.FirstName),
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("name",user.FirstName),
+                new Claim("email", user.Email),
                 //new Claim(ClaimTypes.Role, userDetails.Role)
             };
 
             var token = new JwtSecurityToken(issuer: _configuration["JWT:issuer"],
                                              claims: myClaims,
-                                             expires: DateTime.Now.AddSeconds(10),
+                                             expires: DateTime.Now.AddHours(10),
                                              signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

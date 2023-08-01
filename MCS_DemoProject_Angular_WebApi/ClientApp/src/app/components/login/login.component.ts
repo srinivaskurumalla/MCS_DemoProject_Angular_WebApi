@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DbService } from 'src/app/services/db.service';
 import { Router } from '@angular/router';
+import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit{
   /**
    *
    */
-  constructor(private _fb:FormBuilder,private _dbService :DbService,private _router : Router ) {}
+  constructor(private _fb:FormBuilder,private _dbService :DbService,private _router : Router,private userStoreService : UserStoreService ) {}
   type: string = 'password';
   isText: boolean = false;
   eyeIcon: string = 'fa-eye-slash';
@@ -42,11 +43,15 @@ export class LoginComponent implements OnInit{
       //send the values to DB
       console.log(this.loginForm.value);
       this._dbService.login(this.loginForm.value).subscribe({
-        next :(val: any) => {
+        next :(token: any) => {
           //var token = JSON.parse(val)
-          console.log(val.token);
-          console.log(val);
-          this._dbService.storeToken(val.token);
+
+          console.log(token);
+          this._dbService.storeToken(token);
+
+          const decodedToken = this._dbService.decodedToken();
+
+          this.userStoreService.setFullNameToStore(decodedToken.name);
           this._router.navigate(['/dashboard']);
         },
         error(err) {

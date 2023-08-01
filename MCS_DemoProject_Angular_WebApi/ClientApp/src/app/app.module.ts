@@ -36,7 +36,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FontAwesomeModule,
     //RouterModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      // { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: LoginComponent },
       { path: 'login', component: LoginComponent },
       { path: 'signup', component: SignupComponent },
       { path: 'counter', component: CounterComponent },

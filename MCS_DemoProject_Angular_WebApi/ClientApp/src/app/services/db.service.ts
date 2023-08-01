@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { environment$ } from 'src/environments/environment.prod';
+import { BehaviorSubject } from "rxjs";
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,15 @@ import { environment$ } from 'src/environments/environment.prod';
 export class DbService {
   private apiUrl: string = environment.apiUrl;
   private apiUrl$: string = environment$.apiUrl;
-  constructor(private _http: HttpClient,private _router : Router) { }
+  private userPayLoad: any;
+  constructor(private _http: HttpClient, private _router: Router)
+  {
+    this.userPayLoad = this.decodedToken();
+    //console.log('payload', this.userPayLoad)
+
+   }
+
+
 
   register(data: any) : Observable<any>{
     return this._http.post(`https://localhost:7037/api/Users/Register`, data);
@@ -19,7 +29,7 @@ export class DbService {
 
   login(data: any): Observable<any> {
     //return this._http.post(`${this.apiUrl$}/Users/login`, data);
-   return this._http.post('https://localhost:7037/api/Users/login', data,{ responseType: 'json' });
+   return this._http.post('https://localhost:7037/api/Users/login', data,{ responseType: 'text' });
 
   }
 
@@ -28,6 +38,7 @@ export class DbService {
   }
   logout() {
     localStorage.clear();
+    this.userPayLoad = ''
     this._router.navigate(['/login'])
 
   }
@@ -41,5 +52,18 @@ export class DbService {
 
   isLoggedIn(): boolean{
     return !!localStorage.getItem('token');
+  }
+
+  decodedToken() {
+    const jwtHelper = new JwtHelperService();
+    const token = this.getToken()!;
+    console.log('decoded token',jwtHelper.decodeToken(token));
+    return jwtHelper.decodeToken(token);
+  }
+
+  getFullNameFromToken() {
+    if (this.userPayLoad) {
+      return this.userPayLoad.name;
+    }
   }
 }

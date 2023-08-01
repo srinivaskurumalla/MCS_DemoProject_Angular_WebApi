@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     else {
+      //this._dbService.logout();
       this._router.navigate(['/login'])
       return false;
     }
