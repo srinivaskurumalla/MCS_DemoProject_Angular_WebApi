@@ -1,0 +1,93 @@
+<div class="outer">
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-3 offset-md-3">
+        <div class="panel border bg-white">
+          <div class="panel-heading">
+            <h3 class="pt-3 font-weight-bold">Login</h3>
+          </div>
+          <div class="panel-body p-3">
+            <form [formGroup]="loginForm">
+              <div class="form-group pt-3">
+                <div
+                  class="input-field"
+                  [class.error]="formSubmitted && loginForm.get('email')?.invalid && loginForm.get('email')?.errors?.['required']"
+                >
+                  <span class="fa fa-user p-2"></span>
+                  <input
+                    type="text"
+                    placeholder="Email"
+                    formControlName="email"
+                  />
+                </div>
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    formSubmitted &&
+                    loginForm.get('email')?.invalid &&
+                    loginForm.hasError('required', 'email')
+                  "
+                  >Email is required</small
+                >
+              </div>
+              <div class="form-group pt-3">
+                <div
+                  class="input-field"
+                  [class.error]="formSubmitted && loginForm.get('password')?.invalid && loginForm.get('password')?.errors?.['required']"
+                >
+                  <span class="fa fa-lock p-2"></span>
+                  <input
+                    [type]="type"
+                    placeholder="Password"
+                    formControlName="password"
+                  />
+                  <span (click)="hideShow()" class="fa {{ eyeIcon }}"></span>
+                  <span><i class="fa-solid fa-eye"></i></span>
+                </div>
+                <small
+                  class="text-danger"
+                  *ngIf="formSubmitted && loginForm.get('password')?.invalid && loginForm.get('password')?.errors?.['required']"
+                >
+                  Password is required
+                </small>
+              </div>
+              <div class="form-inline fr mt-4">
+                <a id="forget" class="font-weight-bold">Forgot Password</a>
+              </div>
+
+              <button
+                type="submit"
+                (click)="onSubmit()"
+                class="btn btn-primary mt-4 w-100"
+              >
+                Login
+              </button>
+              <div class="text-center pt-4 text-muted">
+                Don't have account? <a routerLink="/signup">signup</a>
+              </div>
+            </form>
+          </div>
+          <div class="mx-3 my-2 py-2 bordert">
+            <div class="text-center py-3">
+              <a href="https://www.facebook.com" target="_blank" class="px-2"
+                ><img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/900px-Facebook_Logo_%282019%29.png?20190503112358"
+                  alt=""
+              /></a>
+              <a href="https://www.google.com" target="_blank" class="px-2"
+                ><img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/882px-Google_%22G%22_Logo.svg.png?20230305195327"
+                  alt=""
+              /></a>
+              <a href="https://www.github.com" target="_blank" class="px-2"
+                ><img
+                  src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                  alt=""
+              /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

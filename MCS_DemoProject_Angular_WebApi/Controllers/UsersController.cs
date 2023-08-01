@@ -1,8 +1,11 @@
 ﻿using MCS_DemoProject_Angular_WebApi.Interfaces;
 using MCS_DemoProject_Angular_WebApi.Models;
 using MCS_DemoProject_Angular_WebApi.Repositories;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -19,10 +22,14 @@ namespace MCS_DemoProject_Angular_WebApi.Controllers
              _userRepo = userRepo;
          }*/
         private readonly IUsers<User> _userRepo;
+        private readonly IConfiguration _configuration;
+        
 
-        public UsersController(IUsers<User> userRepo)
+
+        public UsersController(IUsers<User> userRepo, IConfiguration configuration)
         {
             _userRepo = userRepo;
+            _configuration = configuration;
         }
 
         [HttpPost("Register")]
@@ -50,6 +57,7 @@ namespace MCS_DemoProject_Angular_WebApi.Controllers
             }
             return NotFound();
         }
+        [Authorize]
         [HttpGet("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -60,7 +68,7 @@ namespace MCS_DemoProject_Angular_WebApi.Controllers
         [HttpGet("GetUserById/{id}")]
         public async Task<IActionResult> GetUserById(int id)
         {
-            var user = await _userRepo.GetById(id);
+            var user = await _userRepo.GetUserById(id);
             if(user != null )
             {
                 return Ok(user);
@@ -71,7 +79,62 @@ namespace MCS_DemoProject_Angular_WebApi.Controllers
             }
         }
 
-    
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] User user)
+        {
+            var currentUser = await _userRepo.GetUserByEmail(user.Email);
+            if (currentUser == null)
+            {
+                return BadRequest("Invalid Email");
+            }
+
+            var isValidPassword = VerifyPassword(user.Password, currentUser.PasswordSalt, currentUser.PasswordHash);
+
+            if (!isValidPassword)
+            {
+                return BadRequest("Invalid Password");
+            }
+
+            var token = GenerateToken(currentUser);
+
+            if (token == null)
+            {
+                return NotFound("Invalid credentials");
+            }
+
+            return Ok(new {Token = token, Message = "login Successful"});
+        }
+
+       
+        [NonAction]
+        public bool VerifyPassword(string password, byte[] passwordSalt, byte[] passwordHash)
+        {
+            using (var hmac = new HMACSHA512(passwordSalt))
+            {
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return hash.SequenceEqual(passwordHash);
+            }
+        }
+
+        [NonAction]
+        public string GenerateToken(User user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SECRET_KEY"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var myClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name,user.FirstName),
+                new Claim(ClaimTypes.Email, user.Email),
+                //new Claim(ClaimTypes.Role, userDetails.Role)
+            };
+
+            var token = new JwtSecurityToken(issuer: _configuration["JWT:issuer"],
+                                             claims: myClaims,
+                                             expires: DateTime.Now.AddSeconds(10),
+                                             signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
 
     }
 }

@@ -1,0 +1,68 @@
+<div class="outer">
+  <div class="container">
+    <div class="row">
+      <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+        <div class="panel border bg-white">
+          <div class="panel-heading">
+            <h3 class="pt-3 font-weight-bold">SignUp</h3>
+          </div>
+          <div class="panel-body p-3">
+            <form [formGroup]="signUpForm">
+              <div class="form-group pt-3">
+                <div class="input-field" [class.error] = "formSubmitted &&  signUpForm.get('firstName')?.invalid &&  signUpForm.hasError('required','firstName')">
+                  <span class="fa fa-user p-2"></span>
+                  <input type="text" placeholder="First Name" formControlName="firstName" />
+                </div>
+                <small class="text-danger" *ngIf="formSubmitted &&  signUpForm.get('firstName')?.invalid &&  signUpForm.hasError('required','firstName')">firstName required</small>
+              </div>
+              <div class="form-group pt-3">
+                <div class="input-field">
+                  <span class="fa fa-user p-2"></span>
+                  <input type="text" placeholder="Last Name" formControlName="lastName" />
+                </div>
+              </div>
+              <div class="form-group pt-3">
+                <div class="input-field" [class.error] = "formSubmitted &&  signUpForm.get('lastName')?.invalid &&  signUpForm.hasError('required','lastName')">
+                  <span class="fa fa-envelope p-2"></span>
+                  <input type="text" placeholder="Email"  formControlName="email"/>
+                </div>
+                <small class="text-danger" *ngIf="formSubmitted &&  signUpForm.get('email')?.invalid &&  signUpForm.hasError('required','email')">Email required</small>
+
+              </div>
+              <!-- <div class="form-group pt-3">
+                <div class="input-field" [class.error] = "formSubmitted &&  signUpForm.get('userName')?.invalid &&  signUpForm.hasError('required','userName')">
+                  <span class="fa fa-user p-2"></span>
+                  <input type="text" placeholder="Username"  formControlName="userName"/>
+                </div>
+                <small class="text-danger" *ngIf="formSubmitted &&  signUpForm.get('userName')?.invalid &&  signUpForm.hasError('required','userName')">firstName required</small>
+
+              </div> -->
+              <div class="form-group pt-3">
+                <div class="input-field" [class.error] = "formSubmitted &&  signUpForm.get('password')?.invalid &&  signUpForm.hasError('required','password')">
+                  <span class="fa fa-lock p-2"></span>
+                  <input [type]="type" placeholder="Password" formControlName="password" />
+                  <span (click)="hideShow()" class="fa {{ eyeIcon }}"></span>
+                </div>
+                <small class="text-danger" *ngIf="formSubmitted &&  signUpForm.get('password')?.invalid &&  signUpForm.hasError('required','password')">firstName required</small>
+
+              </div>
+
+              <button (click)="onSubmit()" type="submit" class="btn btn-primary mt-4 w-100">
+                SignUp
+              </button>
+              <div class="text-center pt-4 text-muted">
+                Already have account? <a routerLink="/login">login</a>
+              </div>
+            </form>
+          </div>
+          <!-- <div class="mx-3 my-2 py-2 bordert">
+            <div class="text-center py-3">
+              <a href="https://www.facebook.com" target="_blank" class="px-2"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/900px-Facebook_Logo_%282019%29.png?20190503112358" alt=""></a>
+              <a href="https://www.google.com" target="_blank" class="px-2"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/882px-Google_%22G%22_Logo.svg.png?20230305195327" alt=""></a>
+              <a href="https://www.github.com" target="_blank" class="px-2"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt=""></a>
+            </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

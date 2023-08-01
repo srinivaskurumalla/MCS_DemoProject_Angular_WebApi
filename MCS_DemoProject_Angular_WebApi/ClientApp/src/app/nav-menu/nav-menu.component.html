@@ -33,10 +33,13 @@
             >
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
-              >Fetch data</a
-            >
+            <a class="nav-link text-dark" [routerLink]="['/login']"
+             *ngIf="!loggedIn()" >Login</a>
+             <button class="btn" *ngIf="loggedIn()" (click)="logout()">Logout</button>
+
           </li>
+
+         
         </ul>
       </div>
     </div>

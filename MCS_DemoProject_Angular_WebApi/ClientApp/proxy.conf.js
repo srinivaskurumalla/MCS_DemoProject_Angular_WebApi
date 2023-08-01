@@ -12,6 +12,10 @@ const PROXY_CONFIG = [
     secure: false,
     headers: {
       Connection: 'Keep-Alive'
+    },
+    "/api/*": {
+      "target": "http://localhost:5266",
+      "secure": false
     }
   }
 ]

@@ -62,7 +62,7 @@ namespace MCS_DemoProject_Angular_WebApi.Repositories
             return await _dbContext.Users.ToListAsync();
         }
 
-        public async Task<User?> GetById(int id)
+        public async Task<User?> GetUserById(int id)
         {
             var user= await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == id);
             if(user == null)
@@ -75,9 +75,18 @@ namespace MCS_DemoProject_Angular_WebApi.Repositories
             }
         }
 
+        public async Task<User?> GetUserByEmail(string email)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u =>u.Email == email);
+            if(user == null)
+            {
+                return null;
+            }
+            return user;
+        }
         public async Task<User?> Update(int id, User obj)
         {
-           var user  = await GetById(id);
+           var user  = await GetUserById(id);
             EncryptPassword(obj.Password, out byte[] passwordSalt, out byte[] passwordHash);
             if (user!=null)
             {
@@ -95,8 +104,8 @@ namespace MCS_DemoProject_Angular_WebApi.Repositories
             return null;
         }
 
-        [NonAction]
-        public void EncryptPassword(string password, out byte[] passwordSalt, out byte[] passwordHash)
+        //[NonAction]
+        public  void EncryptPassword(string password, out byte[] passwordSalt, out byte[] passwordHash)
         {
             using (var hmac = new HMACSHA512())
             {

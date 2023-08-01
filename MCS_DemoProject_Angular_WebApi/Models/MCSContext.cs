@@ -22,6 +22,7 @@ namespace MCS_DemoProject_Angular_WebApi.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+                optionsBuilder.UseSqlServer("Name=MCSConString");
             }
         }
 

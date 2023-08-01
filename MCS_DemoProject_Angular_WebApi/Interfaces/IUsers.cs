@@ -8,6 +8,7 @@
 
         Task<IEnumerable<T>> GetAll();
 
-        Task<T?> GetById(int id);
+        Task<T?> GetUserById(int id);
+        Task<T?> GetUserByEmail(string email);
     }
 }
