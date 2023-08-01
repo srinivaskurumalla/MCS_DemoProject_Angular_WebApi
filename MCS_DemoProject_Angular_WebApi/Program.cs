@@ -46,6 +46,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["SECRET_KEY"]))
          });
 builder.Services.AddScoped<IUsers<User>, UserRepo>();
+builder.Services.AddScoped<IUsers<ClaimsMaster>, claimsRepo>();
 
 var app = builder.Build();
 

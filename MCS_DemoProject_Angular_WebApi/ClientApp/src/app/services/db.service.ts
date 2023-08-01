@@ -36,6 +36,10 @@ export class DbService {
   getAllUsers(): Observable<any> {
     return this._http.get<any>('https://localhost:7037/api/Users/GetAllUsers')
   }
+  getAllClaims(): Observable<any> {
+    return this._http.get<any>('https://localhost:7037/api/Claims/GetAllClaims')
+
+  }
   logout() {
     localStorage.clear();
     this.userPayLoad = ''

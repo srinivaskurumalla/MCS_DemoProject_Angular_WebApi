@@ -10,7 +10,7 @@ import { UserStoreService } from 'src/app/services/user-store.service';
 export class DashboardComponent implements OnInit {
   public fullName: string = '';
 
- Users: any=[];
+ Claims: any=[];
   constructor(private _dbService : DbService,private _userStoreService : UserStoreService) { }
 
   ngOnInit(): void {
@@ -22,9 +22,9 @@ export class DashboardComponent implements OnInit {
         this.fullName = val || fullNameFromToken;
       }
     )
-    this._dbService.getAllUsers().subscribe(
+    this._dbService.getAllClaims().subscribe(
       res => {
-        this.Users = res
+        this.Claims = res
       },
       err => {
         console.log(err);
