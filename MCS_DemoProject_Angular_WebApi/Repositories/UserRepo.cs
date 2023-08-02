@@ -31,6 +31,8 @@ namespace MCS_DemoProject_Angular_WebApi.Repositories
                     EncryptPassword(obj.Password, out byte[] passwordSalt,out byte[] passwordHash);
                     obj.PasswordHash= passwordHash;
                     obj.PasswordSalt= passwordSalt;
+
+                    obj.Role = "MEMBER";
                     _dbContext.Users.Add(obj);
                     await _dbContext.SaveChangesAsync();
                     return true;

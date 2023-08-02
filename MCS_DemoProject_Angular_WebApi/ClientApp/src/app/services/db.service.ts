@@ -67,7 +67,10 @@ export class DbService {
 
   getFullNameFromToken() {
     if (this.userPayLoad) {
-      return this.userPayLoad.name;
+      return `${this.userPayLoad.name}_${this.userPayLoad.lastName}`
+      //return this.userPayLoad.name;
+    } else {
+      return "GUEST";
     }
   }
 

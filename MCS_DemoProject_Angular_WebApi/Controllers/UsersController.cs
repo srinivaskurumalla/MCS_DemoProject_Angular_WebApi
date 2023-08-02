@@ -125,13 +125,14 @@ namespace MCS_DemoProject_Angular_WebApi.Controllers
             var myClaims = new List<Claim>
             {
                 new Claim("name",user.FirstName),
+                new Claim("lastName",user.LastName),
                 new Claim("email", user.Email),
                 new Claim("Role", user.Role)
             };
 
             var token = new JwtSecurityToken(issuer: _configuration["JWT:issuer"],
                                              claims: myClaims,
-                                             expires: DateTime.Now.AddSeconds(10),
+                                             expires: DateTime.Now.AddHours(10),
                                              signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
