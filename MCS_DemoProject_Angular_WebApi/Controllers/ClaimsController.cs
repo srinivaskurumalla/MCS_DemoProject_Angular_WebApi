@@ -1,6 +1,7 @@
 ﻿using MCS_DemoProject_Angular_WebApi.Interfaces;
 using MCS_DemoProject_Angular_WebApi.Models;
 using MCS_DemoProject_Angular_WebApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace MCS_DemoProject_Angular_WebApi.Controllers
         {
             _claimsRepo = claimsRepo;
         }
-
+        [Authorize]
         [HttpGet("GetAllClaims")]
         public async Task<IActionResult> GetAllUsers()
         {

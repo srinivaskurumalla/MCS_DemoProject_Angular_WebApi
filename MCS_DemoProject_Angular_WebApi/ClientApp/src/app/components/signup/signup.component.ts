@@ -44,16 +44,21 @@ export class SignupComponent  implements OnInit{
 
   onSubmit() {
     this.formSubmitted = true;
-    console.log(this.signUpForm.value)
-    this._dbService.register(this.signUpForm.value).subscribe({
-      next: (val: any) => {
-        alert('Registered successfully');
-        this._router.navigate(['/login'])
-      }, error: (err: any) => {
-        alert('registration failed');
-      }
-    }
+    if (this.signUpForm.valid) {
 
-    )
+
+
+      console.log(this.signUpForm.value)
+      this._dbService.register(this.signUpForm.value).subscribe({
+        next: (val: any) => {
+          alert('Registered successfully');
+          this._router.navigate(['/login'])
+        }, error: (err: any) => {
+          alert('registration failed');
+        }
+      }
+
+      )
+    }
   }
 }

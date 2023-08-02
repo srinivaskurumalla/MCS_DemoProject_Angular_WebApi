@@ -94,6 +94,11 @@ namespace MCS_DemoProject_Angular_WebApi.Models
                 entity.Property(e => e.PasswordSalt)
                     .HasMaxLength(128)
                     .HasColumnName("PASSWORD_SALT");
+
+                entity.Property(e => e.Role)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("ROLE");
             });
 
             OnModelCreatingPartial(modelBuilder);

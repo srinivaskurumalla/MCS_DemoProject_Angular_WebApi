@@ -13,14 +13,14 @@ import { Router } from '@angular/router';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-  constructor(private _dbService : DbService,private _router : Router) {}
+  constructor(private _dbService: DbService, private _router: Router) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
     const token = this._dbService.getToken();
     if (token) {
-      request =  request.clone({
-        setHeaders : {Authorization : `Bearer ${token}`}
+      request = request.clone({
+        setHeaders: { Authorization: `Bearer ${token}` }
       })
     }
     return next.handle(request).pipe(
@@ -30,9 +30,9 @@ export class TokenInterceptor implements HttpInterceptor {
             alert('token expired , please login again');
             this._dbService.logout();
             this._router.navigate(['login']);
-          }else {
+          } else {
             // Handle other errors or display a generic error message
-           // console.error('HTTP error:', err.error);
+            // console.error('HTTP error:', err.error);
             alert(err.error)
             console.log(err)
             console.log(err.error)
@@ -44,4 +44,5 @@ export class TokenInterceptor implements HttpInterceptor {
 
     );
   }
+  
 }

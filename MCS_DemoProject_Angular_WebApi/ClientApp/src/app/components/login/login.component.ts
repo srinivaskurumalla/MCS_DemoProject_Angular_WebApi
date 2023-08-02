@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit{
           const decodedToken = this._dbService.decodedToken();
 
           this.userStoreService.setFullNameToStore(decodedToken.name);
+          this.userStoreService.setRoleToStore(decodedToken.Role);
           this._router.navigate(['/dashboard']);
         },
         error(err) {

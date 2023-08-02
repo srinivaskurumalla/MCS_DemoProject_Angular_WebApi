@@ -70,4 +70,10 @@ export class DbService {
       return this.userPayLoad.name;
     }
   }
+
+  getRoleFromToken() {
+    if (this.userPayLoad) {
+      return this.userPayLoad.Role;
+    }
+  }
 }
