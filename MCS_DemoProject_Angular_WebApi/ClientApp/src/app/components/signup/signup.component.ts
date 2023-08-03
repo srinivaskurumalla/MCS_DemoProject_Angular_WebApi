@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouteReuseStrategy } from '@angular/router';
+import { User } from 'src/app/Models/User';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
@@ -50,7 +51,7 @@ export class SignupComponent  implements OnInit{
 
       console.log(this.signUpForm.value)
       this._dbService.register(this.signUpForm.value).subscribe({
-        next: (val: any) => {
+        next: (val: User) => {
           alert('Registered successfully');
           this._router.navigate(['/login'])
         }, error: (err: any) => {

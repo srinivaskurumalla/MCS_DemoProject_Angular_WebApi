@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Claims } from 'src/app/Models/Claims';
 import { DbService } from 'src/app/services/db.service';
 import { UserStoreService } from 'src/app/services/user-store.service';
 
@@ -11,7 +12,7 @@ export class DashboardComponent implements OnInit {
   public fullName: string = '';
   public role: string = '';
 
- Claims: any=[];
+  Claims!: Claims[]
   constructor(private _dbService : DbService,private _userStoreService : UserStoreService) { }
 
   ngOnInit(): void {
@@ -34,7 +35,7 @@ export class DashboardComponent implements OnInit {
       }
     )
     this._dbService.getAllClaims().subscribe(
-      res => {
+      (res : Claims[]) => {
         this.Claims = res
       },
       err => {

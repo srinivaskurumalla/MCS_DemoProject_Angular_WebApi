@@ -1,4 +1,5 @@
-﻿using MCS_DemoProject_Angular_WebApi.Interfaces;
+﻿using MCS_DemoProject_Angular_WebApi.DTO;
+using MCS_DemoProject_Angular_WebApi.Interfaces;
 using MCS_DemoProject_Angular_WebApi.Models;
 using MCS_DemoProject_Angular_WebApi.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -80,7 +81,7 @@ namespace MCS_DemoProject_Angular_WebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] User user)
+        public async Task<IActionResult> Login([FromBody] UserCredentials user)
         {
             var currentUser = await _userRepo.GetUserByEmail(user.Email);
             if (currentUser == null)

@@ -4,8 +4,10 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { environment$ } from 'src/environments/environment.prod';
-import { BehaviorSubject } from "rxjs";
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserCredentails } from '../Models/User-Credentails';
+import { User } from '../Models/User';
+import { Claims } from '../Models/Claims';
 
 @Injectable({
   providedIn: 'root'
@@ -23,21 +25,21 @@ export class DbService {
 
 
 
-  register(data: any) : Observable<any>{
-    return this._http.post(`https://localhost:7037/api/Users/Register`, data);
+  register(user: User) : Observable<User>{
+    return this._http.post<User>(`${this.apiUrl$}/Users/Register`, user);
   }
 
-  login(data: any): Observable<any> {
+  login(userCredentails: UserCredentails): Observable<any> {
     //return this._http.post(`${this.apiUrl$}/Users/login`, data);
-   return this._http.post('https://localhost:7037/api/Users/login', data,{ responseType: 'text' });
+   return this._http.post(`${this.apiUrl$}/Users/login`, userCredentails,{ responseType: 'text' });
 
   }
 
-  getAllUsers(): Observable<any> {
-    return this._http.get<any>('https://localhost:7037/api/Users/GetAllUsers')
+  getAllUsers(): Observable<User[]> {
+    return this._http.get<User[]>(`${this.apiUrl$}/Users/GetAllUsers`)
   }
-  getAllClaims(): Observable<any> {
-    return this._http.get<any>('https://localhost:7037/api/Claims/GetAllClaims')
+  getAllClaims(): Observable<Claims[]> {
+    return this._http.get<Claims[]>(`${this.apiUrl$}/Claims/GetAllClaims`)
 
   }
   logout() {
